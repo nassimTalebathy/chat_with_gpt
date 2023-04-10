@@ -1,0 +1,21 @@
+.message_user,
+.message_system {
+  text-align: left;
+  font-size: medium;
+  border: 0.3px solid white;
+  padding: 0.2rem;
+  margin-bottom: 1rem;
+  width: 80%;
+  background-color: lightgray;
+  white-space: pre-line;
+}
+
+.message_user {
+  color: blueviolet;
+  margin-right: 5%;
+}
+
+.message_system {
+  color: black;
+  margin-left: 5%;
+}

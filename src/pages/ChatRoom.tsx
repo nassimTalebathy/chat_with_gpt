@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Sidebar from "../components/SideBar/SideBar";
 import { IChat } from "../components/Chat/chat.interface";
 import { IMessage } from "../components/Chat/message.interface";
-import { getInitialChats, saveChat } from "../utils/db";
+import { getAllChats, saveChat } from "../utils/db";
 import Chat from "../components/Chat/Chat";
 import { Navigate } from "react-router-dom";
 import { AuthenticationContext } from "../auth/authentication.context";
@@ -25,10 +25,14 @@ const ChatRoom: React.FC = () => {
 
   // get initial chats
   useEffect(() => {
-    return () => {
-      // console.log("fetching initial chats...");
-      getInitialChats().then((result) => setChats(result));
-    };
+    console.log("fetching initial chats...");
+    getAllChats()
+      .then((result) => {
+        setChats(result);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }, []);
 
   // change messages based on chatId

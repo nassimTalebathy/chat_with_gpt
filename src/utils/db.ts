@@ -4,7 +4,7 @@ import { IUser } from "../auth/authentication.context";
 
 export const CURRENT_USER_KEY = "currentUser";
 
-export const getInitialChats = async () => {
+export const getAllChats = async () => {
   const ignoreKeys = [CURRENT_USER_KEY];
 
   let arr: IChat[] = [];
@@ -33,12 +33,14 @@ export const getInitialUser = async (): Promise<IUser | undefined> => {
 };
 
 export const saveUser = async (user: IUser) => {
+  console.log("saving user " + user.apiKey);
   localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
   return;
 };
 
 export const clearUser = async (user: IUser) => {
-  localStorage.removeItem(user.apiKey);
+  console.log("removing user: " + user.apiKey);
+  localStorage.removeItem(CURRENT_USER_KEY);
 };
 
 // Fetch chat and messages for a specific chat room

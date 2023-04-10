@@ -66,6 +66,7 @@ export const AuthenticationContextProvider: React.FC<InputAuthParams> = ({
   };
 
   const onLogout = () => {
+    // console.log("onLogout function");
     if (!user) {
       return;
     }
@@ -74,6 +75,7 @@ export const AuthenticationContextProvider: React.FC<InputAuthParams> = ({
     setIsLoading(true);
     logOutRequest()
       .then(() => {
+        // console.log("onLogout logOutRequest");
         clearUser(currentUser);
         setUser(undefined);
         setAuthError(undefined);

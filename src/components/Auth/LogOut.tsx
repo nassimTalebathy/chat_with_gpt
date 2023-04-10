@@ -8,7 +8,6 @@ const LogOutComponent: React.FC<any> = () => {
 
   const handleLogOutClick = (event: React.MouseEvent) => {
     onLogout();
-    setAuthError(undefined);
   };
 
   return (

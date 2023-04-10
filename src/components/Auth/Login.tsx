@@ -5,10 +5,11 @@ const LoginComponent: React.FC<any> = () => {
   const { authError, onLogin } = useContext(AuthenticationContext);
 
   const initialApiKey = import.meta.env.VITE_OPENAI_KEY || "";
+  // const initialApiKey = "";
   const [apiKey, setApiKey] = useState(initialApiKey);
 
   const handleLogin = (e: React.FormEvent) => {
-    // console.log("handleLogin event");
+    console.log("handleLogin event");
     e.preventDefault();
     apiKey && onLogin(apiKey);
   };

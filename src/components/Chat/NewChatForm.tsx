@@ -26,6 +26,7 @@ const NewChatForm: React.FC<NewChatFormProps> = ({ handleAddChat }) => {
         <input
           type="text"
           required
+          style={{ width: "100%", padding: 0 }}
           placeholder="Enter new chat title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}

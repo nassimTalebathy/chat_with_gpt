@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import NavBar from "../components/NavBar/NavBar";
 import pages from "../pages";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter, BrowserRouter } from "react-router-dom";
 
 const { ProfilePage, ChatRoom, LoginPage, NotFound, Home, LogOutPage } = pages;
 const PATHS = [
@@ -14,7 +14,7 @@ const PATHS = [
 
 const AppRouter = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <NavBar />
       <Routes>
         <Route index element={<Home />} />
@@ -22,7 +22,7 @@ const AppRouter = () => {
           <Route path={x.path} element={x.element()} />
         ))}
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

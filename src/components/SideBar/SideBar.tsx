@@ -4,18 +4,26 @@ import NewChatForm from "../Chat/NewChatForm";
 import { Space } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { deleteChat } from "../../utils/db";
+import { ModelNameDropdown } from "./ModelNameDropdown";
 
 interface SidebarProps {
   chats: IChat[];
   setChats: (chats: IChat[]) => void;
   setCurrentChatId: (id?: string) => void;
+  setModelName: (modelName: string) => void;
   currentChatId: string | undefined;
   handleAddChat: (title: string) => void;
 }
 
 const Sidebar = <T extends SidebarProps>(props: T) => {
-  const { chats, setChats, setCurrentChatId, currentChatId, handleAddChat } =
-    props;
+  const {
+    chats,
+    setChats,
+    setCurrentChatId,
+    currentChatId,
+    handleAddChat,
+    setModelName,
+  } = props;
 
   const handleChatClick = (chat: IChat) => {
     if (chat.id !== currentChatId) {
@@ -46,6 +54,9 @@ const Sidebar = <T extends SidebarProps>(props: T) => {
       <div className="sidebar_logo" key={"logo"}>
         Chats
       </div>
+      {/* Choose model */}
+      <ModelNameDropdown setModelName={setModelName} />
+      {/* Chats */}
       {chats
         .sort((a, b) => (a.timestamp.isBefore(b.timestamp) ? -1 : 1))
         .map((chat, index) => {

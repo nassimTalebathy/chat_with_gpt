@@ -27,3 +27,4 @@ dist-ssr
 # Other
 .git.notes
 *.local
+.env

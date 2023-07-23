@@ -1,16 +1,21 @@
 import moment from "moment";
 import { IChat } from "../components/Chat/chat.interface";
 import { IUser } from "../auth/authentication.context";
+import { ModelInfo } from "./api";
 
 export const CURRENT_USER_KEY = "currentUser";
+export const MODEL_NAMES_KEY = "modelNames";
 
 export const getAllChats = async () => {
-  const ignoreKeys = [CURRENT_USER_KEY];
+  const ignoreKeys = [CURRENT_USER_KEY, MODEL_NAMES_KEY, "debug"];
+  const uuidPattern =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
   let arr: IChat[] = [];
   for (var i = 0, len = localStorage.length; i < len; ++i) {
     const key = localStorage.key(i);
-    if (ignoreKeys.includes(key!)) {
+    const isUUID = uuidPattern.test(key!);
+    if (ignoreKeys.includes(key!) || isUUID === false) {
       continue;
     }
     const val = localStorage.getItem(key as string);
@@ -30,6 +35,20 @@ export const getInitialUser = async (): Promise<IUser | undefined> => {
     return;
   }
   return JSON.parse(user) as IUser;
+};
+
+export const getModelsInfo = async (): Promise<ModelInfo[]> => {
+  const models = localStorage.getItem(MODEL_NAMES_KEY);
+  if (!models) {
+    return [];
+  }
+  return JSON.parse(models);
+};
+
+export const saveModelsInfo = async (models: ModelInfo[]) => {
+  console.log(`saving ${models.length} models e.g. ${models[0].id}`);
+  localStorage.setItem(MODEL_NAMES_KEY, JSON.stringify(models));
+  return;
 };
 
 export const saveUser = async (user: IUser) => {

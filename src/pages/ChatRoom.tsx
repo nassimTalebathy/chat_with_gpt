@@ -7,11 +7,14 @@ import { getAllChats, saveChat } from "../utils/db";
 import Chat from "../components/Chat/Chat";
 import { Navigate } from "react-router-dom";
 import { AuthenticationContext } from "../auth/authentication.context";
+import { DEFAULT_MODEL_NAME } from "../utils/api";
 
 const ChatRoom: React.FC = () => {
   const [chats, setChats] = useState<IChat[]>([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [currentChat, setCurrentChat] = useState<IChat | undefined>(undefined);
+  const [modelName, setModelName] = useState<string>(DEFAULT_MODEL_NAME);
+
   const setCurrentChatId = (id?: string) => {
     if (!id) {
       setCurrentChat(undefined);
@@ -65,12 +68,14 @@ const ChatRoom: React.FC = () => {
         currentChatId={currentChat?.id}
         setCurrentChatId={setCurrentChatId}
         handleAddChat={handleAddChat}
+        setModelName={setModelName}
       />
       <div style={{ display: "flex", width: "100%" }}>
         <Chat
           setMessages={setMessages}
           messages={messages}
           currentChat={currentChat}
+          modelName={modelName}
         />
       </div>
     </div>

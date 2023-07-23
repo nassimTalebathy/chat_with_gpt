@@ -18,8 +18,8 @@ const AppRouter = () => {
       <NavBar />
       <Routes>
         <Route index element={<Home />} />
-        {PATHS.map((x) => (
-          <Route path={x.path} element={x.element()} />
+        {PATHS.map((x, idx) => (
+          <Route path={x.path} element={x.element()} key={idx} />
         ))}
       </Routes>
     </HashRouter>

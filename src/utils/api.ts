@@ -1,7 +1,12 @@
-import { Configuration, CreateChatCompletionRequest, OpenAIApi } from "openai";
+import {
+  Configuration,
+  CreateChatCompletionRequest,
+  OpenAIApi,
+  Model as OpenAIModel,
+} from "openai";
 
 // const BASE_URL = "https://api.openai.com/v1/chat/completions";
-const DEFAULT_MODEL = "gpt-3.5-turbo";
+export const DEFAULT_MODEL_NAME = "gpt-3.5-turbo";
 const DEFAULT_TEMP = 0.7;
 
 export const sleep = (ms: number) => {
@@ -11,7 +16,7 @@ export const sleep = (ms: number) => {
 const prepareInputParams = (
   input: IGetSystemResponseInput
 ): CreateChatCompletionRequest => {
-  const model = input.model || DEFAULT_MODEL;
+  const model = input.model || DEFAULT_MODEL_NAME;
   const temperature = input.temperature || DEFAULT_TEMP;
   return {
     model,
@@ -40,12 +45,39 @@ export const getChatCompletion = async (
   return response.choices[0].message?.content!;
 };
 
-interface IGetSystemResponseInput {
+export const getAvailableModels = async (
+  input: IOpenAIConfigInput
+): Promise<ModelInfo[]> => {
+  if (import.meta.env.DEV && input.overrideDev !== true) {
+    await sleep(1000);
+    const fakeModel: ModelInfo = {
+      id: DEFAULT_MODEL_NAME,
+      object: "o",
+      owned_by: "me",
+      created: new Date().getTime(),
+    };
+    return [fakeModel];
+  }
+  const configuration = new Configuration({
+    apiKey: input.apiKey,
+  });
+  const openai = new OpenAIApi(configuration);
+  const response = await openai.listModels();
+  // console.log(response.data);
+  return response.data.data;
+};
+
+interface IOpenAIConfigInput {
   apiKey: string;
+  overrideDev?: boolean;
+}
+
+interface IGetSystemResponseInput extends IOpenAIConfigInput {
   chatId: string;
   message: string;
   model?: string;
   temperature?: number;
   maxTokens?: number;
-  overrideDev?: boolean;
 }
+
+export interface ModelInfo extends OpenAIModel {}

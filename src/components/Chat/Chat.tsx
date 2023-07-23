@@ -12,6 +12,7 @@ interface IChatParams {
   messages: IMessage[];
   currentChat: IChat | undefined;
   setMessages: (messages: IMessage[]) => void;
+  modelName: string;
 }
 
 const Chat = (input: IChatParams) => {
@@ -44,6 +45,7 @@ const Chat = (input: IChatParams) => {
         chatId: currentChat.id,
         message,
         apiKey: user?.apiKey,
+        model: input.modelName,
         // overrideDev: isLocal,
       });
 
